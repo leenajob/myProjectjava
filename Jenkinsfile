@@ -1,29 +1,17 @@
-pipeline {
-  agent { label 'linux' }
-  tools {
-    maven 'M3'
-  }
-  stages {
-    stage('checkout') {
-      steps {
-        git 'https://github.com/effectivejenkins/myProject.git'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'mvn clean compile'
-      }
-    }
-    stage('Test') {
-      steps {
-        sh 'mvn test'
-        junit '**/target/surefire-reports/TEST-*.xml'
-      }
-    }
-    stage('Package') {
-      steps {
-        sh 'mvn package'
-      }
-    }
-  }
+node{
+	def maven = tool name: "maven363"
+	stage("Checkout"){
+		git 'git@github.com:leenajob/myProjectjava.git'
+	}
+	stage("Build"){
+	  sh'mvn clean compile'	
 }
+	stage("Test"){
+	sh 'mvn test'
+	junit '**/target/surefile-report/TEST-*.xml'
+	}
+	stage("Package"){
+	    sh 'mvn package'
+	}		
+}	
+
